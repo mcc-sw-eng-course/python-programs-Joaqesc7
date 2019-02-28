@@ -1,5 +1,6 @@
 The files inside this folder were created by:
     Joaquin Escalante
+    Alejandra Rodriguez
 
 To run the files and obtain the statement coverage, the following steps have to be taken into consideration:
 
