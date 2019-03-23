@@ -1,10 +1,19 @@
-# Tic-Tac-Toe
-# Plays the game of tic-tac-toe against a human opponent
+"""
+This file was created by Joaquin Escalante Canto
+The program allows a player to play a game of TicTacToe versus and AI
+"""
 
+# Set board size for tic tac toe, allow flexibility for other games
 BOARD_SIZE = 9
 
 
 def ask_question(question, low=None, high=None):
+    """
+    :param question: string of the question that must be answered by player
+    :param low: The lower value accepted for a move
+    :param high: The upper value accepted for a move
+    :return: validated input response
+    """
     response = None
 
     if not low and not high:
@@ -29,6 +38,9 @@ def ask_question(question, low=None, high=None):
 
 
 def who_on_first():
+    """
+    :return: The shape that will be using the computer and human
+    """
 
     first_play = ask_question("Would you like to go first? (y/n): ")
 
@@ -48,7 +60,10 @@ def who_on_first():
 
 
 def empty_board():
-
+    """
+    Create empty list of the size of board
+    :return: list
+    """
     board = []
 
     for space in range(BOARD_SIZE):
@@ -58,6 +73,11 @@ def empty_board():
 
 
 def display_board(board):
+    """
+    Display current state of board
+    :param board: list representation of the board
+    :return:
+    """
     print(board[0], "|", board[1], "|", board[2])
     print("-------------------------")
     print(board[3], "|", board[4], "|", board[5])
@@ -66,6 +86,11 @@ def display_board(board):
 
 
 def moves(board):
+    """
+    Create list of available moves, spaces that haven't been occupied
+    :param board:
+    :return: list of moves
+    """
     moves = []
     for square in range(BOARD_SIZE):
         if board[square] == "":
@@ -74,6 +99,11 @@ def moves(board):
 
 
 def winner(board):
+    """
+    Define winning combinations and check state of the board to find winner
+    :param board:
+    :return: Returns the winning shape (X or O) if any, otherwise return TIE or None
+    """
     WAYS_TO_WIN = ((0, 1, 2),
                    (3, 4, 5),
                    (6, 7, 8),
@@ -94,8 +124,12 @@ def winner(board):
     return None
 
 
-def human_move(board):
-
+def player_move(board):
+    """
+    Receive human input and verify it
+    :param board:
+    :return: the index of valid selected space
+    """
     legal = moves(board)
     move = None
 
@@ -110,40 +144,55 @@ def human_move(board):
 
 
 def computer_move(board, computer, human):
-    """Make computer move."""
-    # make a copy to work with since function will be changing list
+    """
+    This function will analyze best next move for computer. It will check if computer can win with next move and choose
+    that space, if human can win next turn it will block that space, if no win next turn it will select best move
+    from predetermined list of moves
+    :param board: Current state of board
+    :param computer: Computer shape (X or O)
+    :param human: Human shape (X or O)
+    :return: index of selected next move
+    """
     board = board[:]
-    # the best positions to have, in order
-    BEST_MOVES = (4, 0, 2, 6, 8, 1, 3, 5, 7)
+    best_move = (4, 0, 2, 6, 8, 1, 3, 5, 7)
 
-    print("I shall take square number")
+    print("Let me think..I choose:")
 
-    # if computer can win, take that move
+    # Take winning move if any otherwise undo it
     for move in moves(board):
         board[move] = computer
+
         if winner(board) == computer:
             print(move)
+
             return move
-        # done checking this move, undo it
+
         board[move] = ""
 
-    # if human can win, block that move
+    # Block winning move if any otherwise undo it
     for move in moves(board):
         board[move] = human
+
         if winner(board) == human:
             print(move)
+
             return move
-        # done checkin this move, undo it
+
         board[move] = ""
 
-    # since no one can win on next move, pick best open square
-    for move in BEST_MOVES:
+    # Select best next move
+    for move in best_move:
         if move in moves(board):
             print(move)
             return move
 
 
 def next_turn(turn):
+    """
+    Change shape to be used for filling selected space since its a turn based game
+    :param turn: Current shape in turn
+    :return: Opposite shape
+    """
     if turn == "X":
         return "O"
     else:
@@ -151,6 +200,13 @@ def next_turn(turn):
 
 
 def identify_winner(the_winner, computer, human):
+    """
+    Tell player who won game or if it was a tie
+    :param the_winner: String representation of winning shape or TIE
+    :param computer: String representation of shape used by computer
+    :param human: String representation of shape used by human
+    :return:
+    """
     if the_winner == computer:
         print("I win. You loose. Nice try")
 
@@ -158,7 +214,8 @@ def identify_winner(the_winner, computer, human):
         print("You won the battle but not the war.")
 
     elif the_winner == "TIE":
-        print("Impressive, you would make a good computer")
+        print("It's a Tie. Impressive, you would make a good computer")
+
 
 def main():
     print(
@@ -181,17 +238,21 @@ def main():
     display_board(board)
 
     while not winner(board):
+
         if turn == human:
-            move = human_move(board)
+            move = player_move(board)
             board[move] = human
+
         else:
             move = computer_move(board, computer, human)
             board[move] = computer
+
         display_board(board)
         turn = next_turn(turn)
 
     the_winner = winner(board)
     identify_winner(the_winner, computer, human)
 
-# start the program
+
+# Start game
 main()
