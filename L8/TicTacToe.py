@@ -18,7 +18,7 @@ def ask_question(question, low=None, high=None):
 
     if not low and not high:
 
-        while response not in ("y", "n"):
+        while response not in ("yes", "no"):
             response = raw_input(question).lower()
 
     else:
@@ -42,9 +42,9 @@ def who_on_first():
     :return: The shape that will be using the computer and human
     """
 
-    first_play = ask_question("Would you like to go first? (y/n): ")
+    first_play = ask_question("Would you like to go first? (yes or no): ")
 
-    if first_play == "y":
+    if first_play == "yes":
 
         print("Fine, go for it")
         human = "X"
