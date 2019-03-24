@@ -255,4 +255,4 @@ def main():
 
 
 # Start game
-# main()
+main()
