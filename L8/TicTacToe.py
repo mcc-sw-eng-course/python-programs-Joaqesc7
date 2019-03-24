@@ -19,13 +19,13 @@ def ask_question(question, low=None, high=None):
     if not low and not high:
 
         while response not in ("yes", "no"):
-            response = raw_input(question).lower()
+            response = input(question).lower()
 
     else:
 
         while response not in range(low, high):
             try:
-                response = int(raw_input(question))
+                response = int(input(question))
 
                 if response not in range(low, high):
                     print("HA! That's not a valid move")
@@ -138,7 +138,7 @@ def player_move(board):
         move = ask_question("Choose your move (0 - 8):", 0, BOARD_SIZE)
 
         if move not in legal:
-            print("That space is already occupied.  Choose another.")
+            print("Not a valid move. Choose another.")
 
     return move
 
@@ -255,4 +255,4 @@ def main():
 
 
 # Start game
-main()
+# main()
